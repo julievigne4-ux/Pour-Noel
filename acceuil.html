@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pour Papa 💙</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@500&family=Open+Sans&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      background: linear-gradient(180deg, #e6eef5, #f4f7fb);
+      color: #2e2e2e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      min-height: 100vh;
+    }
+
+    header {
+      margin-top: 60px;
+      font-family: 'Merriweather', serif;
+      font-size: 2.5rem;
+      color: #1a4a7c;
+    }
+
+    p.intro {
+      max-width: 600px;
+      margin: 20px;
+      font-size: 1.2rem;
+      color: #444;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .photo {
+      background: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .photo:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+    }
+
+    .photo img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .caption {
+      padding: 15px;
+      font-style: italic;
+      color: #555;
+    }
+.btn {
+  display: inline-block;
+  background: #2b6cb0; /* rose principal */
+  color: white;
+  padding: 12px 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 0 rgba(214, 51, 132, 0); /* base sans halo */
+}
+
+.btn:hover {
+  background: #224b8b;
+  transform: scale(1.03) rotate(0.5deg);
+  box-shadow: 0 0 15px rgba(214, 51, 132, 0.6); /* halo doux */
+  animation: pulse 0.8s ease-in-out;
+}
+
+/* Animation légère de "battement" */
+@keyframes pulse {
+  0% { transform: scale(1.03) rotate(0.5deg); }
+  50% { transform: scale(1.06) rotate(-0.5deg); }
+  100% { transform: scale(1.03) rotate(0.5deg); }
+}
+
+    footer {
+      margin: 60px 0 20px 0;
+      font-size: 1rem;
+      color: #777;
+    }
+
+  </style>
+</head>
+<body>
+  <header>Pour Papa 💙</header>
+  <p class="intro">
+    Papa, ce site est un petit hommage à tout ce que tu m’as appris,  
+    à ton courage, ta patience et ta manière unique de rendre les choses simples.
+  </p>
+
+  <section class="gallery">
+    <div class="photo">
+      <img src="photo1.jpg" alt="Photo souvenir 1">
+      <div class="caption">Des souvenirs qui ne s’oublient pas.</div>
+    </div>
+
+    <div class="photo">
+      <img src="photo2.jpg" alt="Photo souvenir 2">
+      <div class="caption">Merci pour ton exemple, toujours présent.</div>
+    </div>
+
+    <div class="photo">
+      <img src="photo3.jpg" alt="Photo souvenir 3">
+      <div class="caption">Je t’aime, tout simplement.</div>
+    </div>
+  </section>
+    <a href="souvenirs.html" class="btn">Voir la frise de souvenirs 📸</a>
+    <a href="lettre.html" class="btn">💌 Lire ma lettre</a>
+
+  <footer>
+    Fait avec amour et fierté 💙 — Ton tout petit enfant qui grandit
+  </footer>
+
+  <!-- 🎧 Musique de fond -->
+<audio id="bg-music" loop>
+  <source src="musique.mp3" type="audio/mpeg">
+  Votre navigateur ne supporte pas la lecture audio.
+</audio>
+
+<button id="music-btn" title="Couper la musique">🔇</button>
+
+<script>
+  const music = document.getElementById('bg-music');
+  const btn = document.getElementById('music-btn');
+  let isPlaying = false;
+
+  // Essaie de lancer automatiquement dès que possible
+  window.addEventListener('load', async () => {
+    try {
+      await music.play();
+      isPlaying = true;
+      btn.textContent = '🔇';
+      btn.title = "Couper la musique";
+    } catch (err) {
+      // Autoplay bloqué → attend un clic utilisateur
+      console.log('Autoplay bloqué : attend un clic pour démarrer.');
+      document.body.addEventListener('click', startMusicOnce, { once: true });
+      btn.textContent = '🎵';
+      btn.title = "Activer la musique";
+    }
+  });
+
+  function startMusicOnce() {
+    music.play();
+    isPlaying = true;
+    btn.textContent = '🔇';
+    btn.title = "Couper la musique";
+  }
+
+  // Bouton de contrôle
+  btn.addEventListener('click', () => {
+    if (isPlaying) {
+      music.pause();
+      btn.textContent = '🎵';
+      btn.title = "Activer la musique";
+    } else {
+      music.play();
+      btn.textContent = '🔇';
+      btn.title = "Couper la musique";
+    }
+    isPlaying = !isPlaying;
+  });
+</script>
+
+<style>
+  #music-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(43, 108, 176, 0.9); /* Bleu profond */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.4rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: background 0.3s ease, transform 0.2s ease;
+    z-index: 100;
+  }
+
+  #music-btn:hover {
+    background: rgba(30, 76, 124, 0.95); /* Bleu plus foncé au hover */
+    transform: scale(1.05);
+  }
+</style>
+
+<!-- 💫 Effet d’étoiles bleues -->
+<canvas id="stars"></canvas>
+
+<script>
+  const canvas = document.getElementById("stars");
+  const ctx = canvas.getContext("2d");
+
+  let width = window.innerWidth;
+  let height = window.innerHeight;
+  canvas.width = width;
+  canvas.height = height;
+
+  const stars = [];
+  const numStars = 60;
+
+  for (let i = 0; i < numStars; i++) {
+    stars.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      radius: Math.random() * 4 + 1.5, // plus grandes
+      speed: Math.random() * 0.5 + 0.3,
+      opacity: Math.random() * 0.5 + 0.5,
+      glow: Math.random() * 10 + 10 // halo plus lumineux
+    });
+  }
+
+  function drawStars() {
+    ctx.clearRect(0, 0, width, height);
+    for (const s of stars) {
+      const gradient = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.glow);
+      gradient.addColorStop(0, `rgba(173, 216, 255, ${s.opacity + 0.3})`);
+      gradient.addColorStop(1, `rgba(173, 216, 255, 0)`);
+
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+      ctx.fillStyle = gradient;
+      ctx.fill();
+
+      s.y += s.speed;
+      if (s.y > height) {
+        s.y = -5;
+        s.x = Math.random() * width;
+      }
+    }
+    requestAnimationFrame(drawStars);
+  }
+
+  drawStars();
+
+  window.addEventListener("resize", () => {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+  });
+</script>
+
+<style>
+  #stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+</style>
+<!-- 💖 Effet photo plein écran -->
+<div id="lightbox" class="hidden">
+  <div class="lightbox-bg"></div>
+  <img id="lightbox-img" src="" alt="photo agrandie">
+  <p class="lightbox-text">Tu te souviens ? ❤️</p>
+</div>
+
+<style>
+  #lightbox {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  #lightbox.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  #lightbox-img {
+    max-width: 90%;
+    max-height: 70vh;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    animation: fadeIn 0.5s ease;
+  }
+
+  .lightbox-text {
+    margin-top: 20px;
+    color: #e6f0ff;
+    font-size: 1.3rem;
+    font-style: italic;
+    text-shadow: 0 0 8px rgba(255,255,255,0.2);
+    animation: fadeIn 0.8s ease 0.2s both;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .hidden {
+    display: none;
+  }
+</style>
+
+<script>
+  const photos = document.querySelectorAll('.photo img');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+
+  photos.forEach(img => {
+    img.addEventListener('click', () => {
+      lightboxImg.src = img.src;
+      lightbox.classList.remove('hidden');
+      setTimeout(() => lightbox.classList.add('visible'), 10);
+    });
+  });
+
+  // Fermer au clic sur le fond
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox || e.target.classList.contains('lightbox-bg')) {
+      lightbox.classList.remove('visible');
+      setTimeout(() => lightbox.classList.add('hidden'), 400);
+    }
+  });
+</script>
+
+</body>
+</html>
+
+
+a rajouter effet photos
+Quand on clique sur une photo → elle s’ouvre en plein écran avec un fond flou,
+et un petit texte en dessous (“Tu te souviens ? ❤️”).
+Ça peut se faire en 10 lignes de JS avec un effet fade-in/fade-out.

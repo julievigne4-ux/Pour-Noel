@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Lettre pour Papa 💌</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Open+Sans&display=swap');
+
+    body {
+      margin: 0;
+      background: linear-gradient(180deg, #e7f0ff, #d0e4ff);
+      font-family: 'Open Sans', sans-serif;
+      color: #333;
+      text-align: center;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      color: #2b6cb0;
+      font-size: 2.2rem;
+      margin-bottom: 30px;
+      z-index: 1;
+    }
+
+    .envelope {
+      font-size: 4rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      z-index: 1;
+    }
+
+    .envelope:hover {
+      transform: scale(1.1);
+    }
+
+    .letter {
+      position: relative;
+      max-width: 600px;
+      background: #f7fbff;
+      border: 1px solid #bcd3f0;
+      border-radius: 12px;
+      padding: 30px 40px;
+      margin-top: 30px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1.2s ease, transform 1.2s ease;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      text-align: left;
+      background-image: repeating-linear-gradient(#f7fbff, #f7fbff 28px, #e0edff 29px);
+      z-index: 1;
+    }
+
+    .letter.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .signature {
+      margin-top: 20px;
+      text-align: right;
+      font-style: italic;
+      color: #2b6cb0;
+    }
+
+    .back-btn {
+      margin-top: 40px;
+      display: inline-block;
+      background: #2b6cb0;
+      color: white;
+      text-decoration: none;
+      padding: 10px 22px;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+      z-index: 1;
+    }
+
+    .back-btn:hover {
+      background: #224b8b;
+    }
+
+    #music-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(43, 108, 176, 0.9);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.4rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: background 0.3s ease, transform 0.2s ease;
+      z-index: 100;
+    }
+
+    #music-btn:hover {
+      background: rgba(30, 76, 124, 0.95);
+      transform: scale(1.05);
+    }
+
+    #stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    #texte-lettre {
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Une lettre pour toi, Papa 💌</h1>
+
+  <div class="envelope" id="openLetter">💌</div>
+
+  <div class="letter" id="letterContent">
+    <p id="texte-lettre">
+Salut Papa,
+
+Il y a plein de choses que je garde en moi depuis longtemps.  
+Merci pour ta force tranquille, ta manière de m’apprendre les choses sans jamais m’imposer quoi que ce soit.
+
+Tu m’as montré ce que c’est d’être droit, d’être patient, et d’avoir du cœur.  
+Même quand les mots manquent, je sais que t’es là — et c’est tout ce qui compte.
+
+Je t’aime, simplement, sincèrement. 💙
+
+— [Ton prénom]
+    </p>
+  </div>
+
+  <a class="back-btn" href="acceuil.html">← Retour à la page principale</a>
+
+  <!-- 🎧 Musique de fond -->
+  <audio id="bg-music" loop>
+    <source src="musique.mp3" type="audio/mpeg">
+    Votre navigateur ne supporte pas la lecture audio.
+  </audio>
+
+  <button id="music-btn" title="Couper la musique">🔇</button>
+
+  <!-- 💫 Effet d’étoiles -->
+  <canvas id="stars"></canvas>
+
+  <script>
+    // ✉️ Animation d’ouverture + écriture
+    const envelope = document.getElementById('openLetter');
+    const letter = document.getElementById('letterContent');
+    const textElement = document.getElementById('texte-lettre');
+    const fullText = textElement.innerHTML;
+
+    textElement.innerHTML = "";
+
+    envelope.addEventListener('click', () => {
+      letter.classList.add('show');
+      envelope.style.display = 'none';
+      typeWriter();
+    });
+
+    let index = 0;
+    function typeWriter() {
+      if (index < fullText.length) {
+        textElement.innerHTML += fullText.charAt(index);
+        index++;
+        setTimeout(typeWriter, 35);
+      }
+    }
+
+    // 🎵 Musique auto et bouton
+    const music = document.getElementById('bg-music');
+    const btn = document.getElementById('music-btn');
+    let isPlaying = false;
+
+    window.addEventListener('load', async () => {
+      try {
+        await music.play();
+        isPlaying = true;
+        btn.textContent = '🔇';
+        btn.title = "Couper la musique";
+      } catch (err) {
+        console.log('Autoplay bloqué : attend un clic pour démarrer.');
+        document.body.addEventListener('click', startMusicOnce, { once: true });
+        btn.textContent = '🎵';
+        btn.title = "Activer la musique";
+      }
+    });
+
+    function startMusicOnce() {
+      music.play();
+      isPlaying = true;
+      btn.textContent = '🔇';
+      btn.title = "Couper la musique";
+    }
+
+    btn.addEventListener('click', () => {
+      if (isPlaying) {
+        music.pause();
+        btn.textContent = '🎵';
+        btn.title = "Activer la musique";
+      } else {
+        music.play();
+        btn.textContent = '🔇';
+        btn.title = "Couper la musique";
+      }
+      isPlaying = !isPlaying;
+    });
+
+    // 🌠 Animation d’étoiles
+    const canvas = document.getElementById("stars");
+    const ctx = canvas.getContext("2d");
+
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+
+    const stars = [];
+    const numStars = 60;
+
+    for (let i = 0; i < numStars; i++) {
+      stars.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        radius: Math.random() * 4 + 1.5,
+        speed: Math.random() * 0.5 + 0.3,
+        opacity: Math.random() * 0.5 + 0.5,
+        glow: Math.random() * 10 + 10
+      });
+    }
+
+    function drawStars() {
+      ctx.clearRect(0, 0, width, height);
+      for (const s of stars) {
+        const gradient = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.glow);
+        gradient.addColorStop(0, `rgba(173, 216, 255, ${s.opacity + 0.3})`);
+        gradient.addColorStop(1, `rgba(173, 216, 255, 0)`);
+
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+
+        s.y += s.speed;
+        if (s.y > height) {
+          s.y = -5;
+          s.x = Math.random() * width;
+        }
+      }
+      requestAnimationFrame(drawStars);
+    }
+
+    drawStars();
+
+    window.addEventListener("resize", () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    });
+  </script>
+
+</body>
+</html>
